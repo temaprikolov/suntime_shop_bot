@@ -3,6 +3,8 @@ import logging
 import os
 import sys
 from aiogram import Bot, Dispatcher
+from aiogram.client.default import DefaultBotProperties
+from aiogram.enums import ParseMode
 from aiogram.fsm.storage.memory import MemoryStorage
 
 from handlers import router as user_router
@@ -28,8 +30,10 @@ async def main():
         print(f"❌ Ошибка инициализации БД: {e}")
         return
     
-    # Простая инициализация без parse_mode
-    bot = Bot(token=config.config.BOT_TOKEN)
+    bot = Bot(
+        token=config.config.BOT_TOKEN,
+        default=DefaultBotProperties(parse_mode=ParseMode.HTML)
+    )
     
     storage = MemoryStorage()
     dp = Dispatcher(storage=storage)
